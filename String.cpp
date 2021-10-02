@@ -67,9 +67,12 @@ String& String::operator=(const char* string)
 	return *this;
 }
 
+/// <summary>
+/// Get string as char*
+/// </summary>
+/// <returns></returns>
 const char* String::GetChar() const
 {
-
 	return m_string;
 }
 
@@ -80,28 +83,6 @@ const char* String::GetChar() const
 /// <returns></returns>
 const char* String::GetContext(const char* delimiter) const
 {
-	/*const char* ext = strrchr(fileName, '.');
-
-	if (ext != nullptr)
-	{
-		if (strcmp(ext, ".png") == 0)
-		{
-			return ImageType::PNG;
-		}
-		else if (strcmp(ext, ".jpg") == 0)
-		{
-			return ImageType::JPG;
-		}
-		else if (strcmp(ext, ".bmp") == 0)
-		{
-			return ImageType::BMP;
-		}
-		else if (strcmp(ext, ".tga") == 0)
-		{
-			return ImageType::TGA;
-		}
-	}*/
-
 	char* first;
 	char* second = NULL;
 
@@ -205,6 +186,11 @@ int String::Find(char string)
 	return -1;
 }
 
+/// <summary>
+/// Find a character in string and return its index
+/// </summary>
+/// <param name="string"></param>
+/// <returns></returns>
 int String::Find(const char* string)
 {
 	for (size_t i = 0; i < strlen(m_string); i++)
@@ -232,6 +218,11 @@ int String::Find(const char* string)
 	return -1;
 }
 
+/// <summary>
+/// Count how many times a character appears in string
+/// </summary>
+/// <param name="string"></param>
+/// <returns></returns>
 int String::Count(char string)
 {
 	int count = 0;

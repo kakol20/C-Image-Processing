@@ -6,7 +6,11 @@
 #include <string.h>
 #include <iostream>
 
-#include "Base.h"
+enum class ImageType
+{
+	PNG, JPG, BMP, TGA
+};
+
 
 class Image
 {

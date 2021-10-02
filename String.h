@@ -47,7 +47,7 @@ public:
 
 private:
 
-	char* m_string = new char[255];
+	char* m_string = new char[256];
 };
 
 std::ostream& operator<<(std::ostream& os, const String& string);

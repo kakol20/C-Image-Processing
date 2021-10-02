@@ -148,6 +148,8 @@ Image::~Image()
 	stbi_image_free(m_data);
 }
 
+// ---------- MEMBER FUNCTIONS ----------
+
 ImageType Image::GetFileType(const char* fileName)
 {
 	const char* ext = strrchr(fileName, '.');
