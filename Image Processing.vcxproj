@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Filters.cpp" />
+    <ClCompile Include="Functions.cpp" />
+    <ClCompile Include="Functions.h" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="String.cpp" />
