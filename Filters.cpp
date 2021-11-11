@@ -48,17 +48,19 @@ void Grayscale(Image* image)
 		{
 			int index = image->GetIndex(x, y);
 
-			uint8_t r = image->GetData(index + 0);
+			/*uint8_t r = image->GetData(index + 0);
 			uint8_t g = image->GetData(index + 1);
-			uint8_t b = image->GetData(index + 2);
+			uint8_t b = image->GetData(index + 2);*/
 
-			float grayscale = ((float)r * 0.299f) + ((float)g * 0.587f) + ((float)b * 0.114f);
+			float r = image->GetDataF(index + 0);
+			float g = image->GetDataF(index + 0);
+			float b = image->GetDataF(index + 0);
 
-			uint8_t convertedGray = (uint8_t)(round(grayscale));
+			float grayscale = (r * 0.299f) + (g * 0.587f) + (b * 0.114f);
 
-			image->SetData(index + 0, convertedGray);
-			image->SetData(index + 1, convertedGray);
-			image->SetData(index + 2, convertedGray);
+			image->SetDataF(index + 0, grayscale);
+			image->SetDataF(index + 1, grayscale);
+			image->SetDataF(index + 2, grayscale);
 		}
 	}
 }
@@ -98,11 +100,11 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 			if (channels >= 3)
 			{
 				// convert 0-255 to 0-1
-				float r = (float)image->GetData(index + 0) / 255.0f;
-				float g = (float)image->GetData(index + 1) / 255.0f;
-				float b = (float)image->GetData(index + 2) / 255.0f;				
+				float r = image->GetDataF(index + 0) / 255.0f;
+				float g = image->GetDataF(index + 1) / 255.0f;
+				float b = image->GetDataF(index + 2) / 255.0f;				
 
-				uint8_t convertedGray;
+				//uint8_t convertedGray;
 				float gray;
 
 				switch (filter)
@@ -113,12 +115,13 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 					gray = round(gray * (float)factor) / (float)factor;
 
 					gray = ClampF(gray, 0.0f, 1.0f);
+					gray *= 255.0f;
 
-					convertedGray = (uint8_t)round(gray * 255.0f);
+					//convertedGray = (uint8_t)round(gray * 255.0f);
 
-					image->SetData(index + 0, convertedGray);
-					image->SetData(index + 1, convertedGray);
-					image->SetData(index + 2, convertedGray);
+					image->SetDataF(index + 0, gray);
+					image->SetDataF(index + 1, gray);
+					image->SetDataF(index + 2, gray);
 
 					break;
 
@@ -136,9 +139,9 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 					g = ClampF(g, 0.0f, 1.0f);
 					b = ClampF(b, 0.0f, 1.0f);
 
-					image->SetData(index + 0, (uint8_t)round(r * 255.0f));
-					image->SetData(index + 1, (uint8_t)round(g * 255.0f));
-					image->SetData(index + 2, (uint8_t)round(b * 255.0f));
+					image->SetDataF(index + 0, r * 255.0f);
+					image->SetDataF(index + 1, g * 255.0f);
+					image->SetDataF(index + 2, b * 255.0f);
 					break;
 				}
 			}
@@ -150,7 +153,7 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 
 					for (int i = 0; i < channels; i++)
 					{
-						total += (float)image->GetData(index + i);
+						total += image->GetDataF(index + i);
 					}
 
 					total /= (float)channels;
@@ -165,21 +168,21 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 
 					for (int i = 0; i < channels; i++)
 					{
-						image->SetData(index + i, (uint8_t)round(total * 255.0f));
+						image->SetDataF(index + i, total * 255.0f);
 					}
 				}
 				else if (filter == DitherFilter::FULLCOLOR)
 				{
 					for (int i = 0; i < channels; i++)
 					{
-						float c = (float)image->GetData(index + i) / 255.0f;
+						float c = image->GetDataF(index + i) / 255.0f;
 
 						c = c * octet * (threshold - 0.5f);
 						c = round(c * (float)factor) / (float)factor;
 
 						c = ClampF(c, 0.0f, 1.0f);
 
-						image->SetData(index + i, (uint8_t)round(c * 255.0f));
+						image->SetDataF(index + i, c * 255.0f);
 					}
 				}
 			}

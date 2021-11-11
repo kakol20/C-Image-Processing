@@ -8,6 +8,7 @@
 #include "Image.h"
 #include "Filters.h"
 #include "String.h";
+#include "Functions.h"
 
 int main(int argc, char** argv) {
 	//std::cout << "Hello World \n";
