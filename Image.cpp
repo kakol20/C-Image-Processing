@@ -27,7 +27,7 @@ Image::Image(int w, int h, int channels)
 	m_data = new uint8_t[m_size];
 	m_dataF = new float[m_size];
 
-	for (int i = 0; i < m_size; i++)
+	for (size_t i = 0; i < m_size; i++)
 	{
 		m_data[i] = 0;
 
@@ -84,7 +84,7 @@ bool Image::Read(const char* fileName)
 
 	m_dataF = new float[m_size];
 
-	for (int i = 0; i < m_size; i++)
+	for (size_t i = 0; i < m_size; i++)
 	{
 		m_dataF[i] = (float)m_data[i];
 	}
@@ -103,7 +103,7 @@ bool Image::Write(const char* fileName)
 	ImageType type = GetFileType(fileName);
 	int success = 0;
 
-	for (int i = 0; i < m_size; i++)
+	for (size_t i = 0; i < m_size; i++)
 	{
 		m_dataF[i] = m_dataF[i] > 255.0f ? 255.0f : m_dataF[i];
 		m_dataF[i] = m_dataF[i] < 0.0f ? 0.0f : m_dataF[i];
@@ -179,6 +179,29 @@ void Image::SetData(int index, float data)
 	m_dataF[index] = m_dataF[index] < 0.0f ? 0.0f : m_dataF[index];
 
 	m_data[index] = (uint8_t)round(m_dataF[index]);
+}
+
+void Image::BackgroundColor(const float r, float g = 0.0f, float b = 0.0f, float a = 255.0f) {
+	if (m_channels >= 3) {
+		for (int x = 0; x < m_w; x++) {
+			for (int y = 0; y < m_h; y++) {
+				int index = GetIndex(x, y);
+
+				SetData(index + 0, r);
+				SetData(index + 1, g);
+				SetData(index + 2, b);
+
+				if (m_channels == 4) {
+					SetData(index + 3, a);
+				}
+			}
+		}
+	}
+	else {
+		for (size_t i = 0; i < m_size; i++) {
+			SetData(i, r);
+		}
+	}
 }
 
 Image::~Image()

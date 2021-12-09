@@ -39,6 +39,8 @@ public:
 	float GetDataF(int index);
 	void SetData(int index, float data);
 
+	void BackgroundColor(const float r, float g, float b, float a);
+
 	~Image();
 
 private:

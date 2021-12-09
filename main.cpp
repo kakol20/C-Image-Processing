@@ -7,23 +7,18 @@
 
 #include "Image.h"
 #include "Filters.h"
-#include "String.h";
+#include "String.h"
 #include "Functions.h"
+#include "Line.h"
 
 int main(int argc, char** argv) {
-	//std::cout << "Hello World \n";
+	Image naive(100, 100, 3);
+	//naive.BackgroundColor(255.0f, 255.0f, 255.0f, 255.0f);
 
-	//Image jihyo("images/jihyo/jihyo_blurred.png");
-	//Image jihyoBN = jihyo;
-	//Image jihyoTM = jihyo;
+	Line::Naive(naive, { 255.0f, 0.0f, 0.0f }, 0, 0, 100, 50);
+	Line::Differential(naive, { 0.0f, 255.0f, 0.0f }, 100, 100, -1, 50);
 
-	//OrderedDithering(&jihyoBN, DitherFilter::FULLCOLOR, Threshold::BLUENOISE_16, 15);
-	//OrderedDithering(&jihyoTM, DitherFilter::FULLCOLOR, Threshold::ORDERED_8, 15);
-
-	//jihyoBN.Write("images/jihyo/jihyo_bluenoise_col_15.png");
-	//jihyoTM.Write("images/jihyo/jihyo_ordered_col_15.png");
-
-	
+	naive.Write("images/line/comparison.png");
 
 	system("PAUSE");
 
