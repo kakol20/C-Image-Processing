@@ -37,44 +37,44 @@ float ClampF(float val, float low, float high)
 	return val;
 }
 
-void Grayscale(Image* image)
+void Grayscale(Image & image)
 {
-	int w = image->GetWidth();
-	int h = image->GetHeight();
+	int w = image.GetWidth();
+	int h = image.GetHeight();
 
 	for (int x = 0; x < w; x++)
 	{
 		for (int y = 0; y < h; y++)
 		{
-			int index = image->GetIndex(x, y);
+			int index = image.GetIndex(x, y);
 
 			/*uint8_t r = image->GetData(index + 0);
 			uint8_t g = image->GetData(index + 1);
 			uint8_t b = image->GetData(index + 2);*/
 
-			float r = image->GetDataF(index + 0);
-			float g = image->GetDataF(index + 0);
-			float b = image->GetDataF(index + 0);
+			float r = image.GetDataF(index + 0);
+			float g = image.GetDataF(index + 0);
+			float b = image.GetDataF(index + 0);
 
 			float grayscale = (r * 0.299f) + (g * 0.587f) + (b * 0.114f);
 
-			image->SetDataF(index + 0, grayscale);
-			image->SetDataF(index + 1, grayscale);
-			image->SetDataF(index + 2, grayscale);
+			image.SetData(index + 0, grayscale);
+			image.SetData(index + 1, grayscale);
+			image.SetData(index + 2, grayscale);
 		}
 	}
 }
 
-void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap, int factor)
+void OrderedDithering(Image & image, DitherFilter filter, Threshold thresholdMap, int factor)
 {
-	int w = image->GetWidth();
-	int h = image->GetHeight();
+	int w = image.GetWidth();
+	int h = image.GetHeight();
 
 	for (int x = 0; x < w; x++)
 	{
 		for (int y = 0; y < h; y++) {
-			int index = image->GetIndex(x, y);
-			int channels = image->GetChannels();
+			int index = image.GetIndex(x, y);
+			int channels = image.GetChannels();
 
 			int thresholdIndex = 0;
 
@@ -100,9 +100,9 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 			if (channels >= 3)
 			{
 				// convert 0-255 to 0-1
-				float r = image->GetDataF(index + 0) / 255.0f;
-				float g = image->GetDataF(index + 1) / 255.0f;
-				float b = image->GetDataF(index + 2) / 255.0f;				
+				float r = image.GetDataF(index + 0) / 255.0f;
+				float g = image.GetDataF(index + 1) / 255.0f;
+				float b = image.GetDataF(index + 2) / 255.0f;				
 
 				//uint8_t convertedGray;
 				float gray;
@@ -119,9 +119,9 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 
 					//convertedGray = (uint8_t)round(gray * 255.0f);
 
-					image->SetDataF(index + 0, gray);
-					image->SetDataF(index + 1, gray);
-					image->SetDataF(index + 2, gray);
+					image.SetData(index + 0, gray);
+					image.SetData(index + 1, gray);
+					image.SetData(index + 2, gray);
 
 					break;
 
@@ -139,9 +139,9 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 					g = ClampF(g, 0.0f, 1.0f);
 					b = ClampF(b, 0.0f, 1.0f);
 
-					image->SetDataF(index + 0, r * 255.0f);
-					image->SetDataF(index + 1, g * 255.0f);
-					image->SetDataF(index + 2, b * 255.0f);
+					image.SetData(index + 0, r * 255.0f);
+					image.SetData(index + 1, g * 255.0f);
+					image.SetData(index + 2, b * 255.0f);
 					break;
 				}
 			}
@@ -153,7 +153,7 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 
 					for (int i = 0; i < channels; i++)
 					{
-						total += image->GetDataF(index + i);
+						total += image.GetDataF(index + i);
 					}
 
 					total /= (float)channels;
@@ -168,21 +168,21 @@ void OrderedDithering(Image* image, DitherFilter filter, Threshold thresholdMap,
 
 					for (int i = 0; i < channels; i++)
 					{
-						image->SetDataF(index + i, total * 255.0f);
+						image.SetData(index + i, total * 255.0f);
 					}
 				}
 				else if (filter == DitherFilter::FULLCOLOR)
 				{
 					for (int i = 0; i < channels; i++)
 					{
-						float c = image->GetDataF(index + i) / 255.0f;
+						float c = image.GetDataF(index + i) / 255.0f;
 
 						c = c * octet * (threshold - 0.5f);
 						c = round(c * (float)factor) / (float)factor;
 
 						c = ClampF(c, 0.0f, 1.0f);
 
-						image->SetDataF(index + i, c * 255.0f);
+						image.SetData(index + i, c * 255.0f);
 					}
 				}
 			}
