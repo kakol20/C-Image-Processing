@@ -10,6 +10,7 @@ class Line {
 public:
 	Line();
 
+	static void Bresenham(Image& image, const Color color, const int x1, const int y1, const int x2, const int y2);
 	static void Differential(Image& image, const Color color, const int x1, const int y1, const int x2, const int y2);
 	static void Naive(Image& image, const Color color, const int x1, const int y1, const int x2, const int y2);
 
