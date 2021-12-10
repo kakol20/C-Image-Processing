@@ -6,19 +6,21 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-Image::Image(const char* fileName)
-{
+Image::Image(const char* fileName) {
 	if (!Read(fileName)) {
 		//printf_s("Read Failed %s\n", fileName);
-		std::cout << "Read Failed " << fileName << std::endl;
+		if (PrintToConsole) {
+			std::cout << "Read Failed " << fileName << std::endl;
+		}
 	}
 	else {
-		std::cout << "Read Success " << fileName << std::endl;
+		if (PrintToConsole) {
+			std::cout << "Read Success " << fileName << std::endl;
+		}
 	}
 }
 
-Image::Image(int w, int h, int channels)
-{
+Image::Image(int w, int h, int channels) {
 	m_w = w;
 	m_h = h;
 	m_channels = channels;
@@ -27,16 +29,14 @@ Image::Image(int w, int h, int channels)
 	m_data = new uint8_t[m_size];
 	m_dataF = new float[m_size];
 
-	for (size_t i = 0; i < m_size; i++)
-	{
+	for (size_t i = 0; i < m_size; i++) {
 		m_data[i] = 0;
 
 		m_dataF[i] = 0.0f;
 	}
 }
 
-Image::Image(const Image& copyImage)
-{
+Image::Image(const Image& copyImage) {
 	stbi_image_free(m_data);
 
 	m_w = copyImage.m_w;
@@ -51,8 +51,7 @@ Image::Image(const Image& copyImage)
 	memcpy(m_dataF, copyImage.m_dataF, m_size);
 }
 
-Image Image::operator=(const Image& copyImage)
-{
+Image Image::operator=(const Image& copyImage) {
 	if (&copyImage == this) return *this;
 
 	stbi_image_free(m_data);
@@ -76,19 +75,17 @@ Image Image::operator=(const Image& copyImage)
 /// </summary>
 /// <param name="fileName"></param>
 /// <returns></returns>
-bool Image::Read(const char* fileName)
-{
+bool Image::Read(const char* fileName) {
 	m_data = stbi_load(fileName, &m_w, &m_h, &m_channels, 0);
 
 	m_size = m_w * m_h * m_channels;
 
 	m_dataF = new float[m_size];
 
-	for (size_t i = 0; i < m_size; i++)
-	{
+	for (size_t i = 0; i < m_size; i++) {
 		m_dataF[i] = (float)m_data[i];
 	}
-	
+
 	return m_data != NULL;
 }
 
@@ -98,22 +95,18 @@ bool Image::Read(const char* fileName)
 /// <param name="x"></param>
 /// <param name="y"></param>
 /// <returns></returns>
-bool Image::Write(const char* fileName)
-{
+bool Image::Write(const char* fileName) {
 	ImageType type = GetFileType(fileName);
 	int success = 0;
 
-	for (size_t i = 0; i < m_size; i++)
-	{
+	for (size_t i = 0; i < m_size; i++) {
 		m_dataF[i] = m_dataF[i] > 255.0f ? 255.0f : m_dataF[i];
 		m_dataF[i] = m_dataF[i] < 0.0f ? 0.0f : m_dataF[i];
 
 		m_data[i] = (uint8_t)round(m_dataF[i]);
 	}
-	
 
-	switch (type)
-	{
+	switch (type) {
 	case ImageType::PNG:
 		success = stbi_write_png(fileName, m_w, m_h, m_channels, m_data, m_w * m_channels);
 		break;
@@ -125,56 +118,51 @@ bool Image::Write(const char* fileName)
 	case ImageType::BMP:
 		success = stbi_write_bmp(fileName, m_w, m_h, m_channels, m_data);
 		break;
-		
+
 	case ImageType::TGA:
 		success = stbi_write_tga(fileName, m_w, m_h, m_channels, m_data);
 		break;
 	}
 
-	if (success != 0)
-	{
-		std::cout << "Write Success " << fileName << std::endl;
+	if (success != 0) {
+		if (PrintToConsole) {
+			std::cout << "Write Success " << fileName << std::endl;
+		}
 	}
-	else
-	{
-		std::cout << "Write Fail " << fileName << std::endl;
+	else {
+		if (PrintToConsole) {
+			std::cout << "Write Fail " << fileName << std::endl;
+		}
 	}
 
 	return success != 0;
 }
 
-int Image::GetRow()
-{
+int Image::GetRow() {
 	return m_w * m_channels;
 }
 
-int Image::GetIndex(int x, int y)
-{
+int Image::GetIndex(int x, int y) {
 	return (x + y * m_w) * m_channels;
 }
-size_t Image::GetSize()
-{
+size_t Image::GetSize() {
 	return m_size;
 }
 
-uint8_t Image::GetData(int index)
-{
+uint8_t Image::GetData(int index) {
 	return m_data[index];
 }
 
-void Image::SetData(int index, uint8_t data)
-{
+void Image::SetData(int index, uint8_t data) {
 	m_data[index] = data;
 	m_dataF[index] = (float)data;
 }
 
-float Image::GetDataF(int index)
-{
+float Image::GetDataF(int index) {
 	return m_dataF[index];
 }
 
-void Image::SetData(int index, float data)
-{
+void Image::SetData(int index, float data) {
 	m_dataF[index] = data > 255.0f ? 255.0f : data;
 	m_dataF[index] = m_dataF[index] < 0.0f ? 0.0f : m_dataF[index];
 
@@ -204,8 +192,7 @@ void Image::BackgroundColor(const float r, float g = 0.0f, float b = 0.0f, float
 	}
 }
 
-Image::~Image()
-{
+Image::~Image() {
 	stbi_image_free(m_data);
 
 	delete m_dataF;
@@ -214,26 +201,20 @@ Image::~Image()
 
 // ---------- MEMBER FUNCTIONS ----------
 
-ImageType Image::GetFileType(const char* fileName)
-{
+ImageType Image::GetFileType(const char* fileName) {
 	const char* ext = strrchr(fileName, '.');
 
-	if (ext != nullptr)
-	{
-		if (strcmp(ext, ".png") == 0)
-		{
+	if (ext != nullptr) {
+		if (strcmp(ext, ".png") == 0) {
 			return ImageType::PNG;
 		}
-		else if (strcmp(ext, ".jpg") == 0)
-		{
+		else if (strcmp(ext, ".jpg") == 0) {
 			return ImageType::JPG;
 		}
-		else if (strcmp(ext, ".bmp") == 0)
-		{
+		else if (strcmp(ext, ".bmp") == 0) {
 			return ImageType::BMP;
 		}
-		else if (strcmp(ext, ".tga") == 0)
-		{
+		else if (strcmp(ext, ".tga") == 0) {
 			return ImageType::TGA;
 		}
 	}

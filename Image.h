@@ -43,6 +43,9 @@ public:
 
 	~Image();
 
+public: // static public
+	static bool PrintToConsole;
+
 private:
 
 	uint8_t* m_data = NULL;
