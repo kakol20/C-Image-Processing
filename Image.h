@@ -19,7 +19,7 @@ public:
 	Image(int w, int h, int channels);
 
 	Image(const Image& copyImage);
-	Image operator=(const Image& copyImage);
+	Image& operator=(const Image& copyImage);
 
 	bool Read(const char* fileName);
 	bool Write(const char* fileName);

@@ -51,7 +51,7 @@ Image::Image(const Image& copyImage) {
 	memcpy(m_dataF, copyImage.m_dataF, m_size);
 }
 
-Image Image::operator=(const Image& copyImage) {
+Image& Image::operator=(const Image& copyImage) {
 	if (&copyImage == this) return *this;
 
 	stbi_image_free(m_data);
