@@ -21,7 +21,7 @@ void Line::Bresenham(Image& image, const Color color, const int x1, const int y1
 	int l_x1 = x1;
 	int l_y1 = y1;
 
-	int l_x2 = x2 - 1;
+	int l_x2 = x2;
 	int l_y2 = y2;
 
 	int dx = abs(l_x2 - l_x1);

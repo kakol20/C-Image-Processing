@@ -6,20 +6,18 @@
 #include <string.h>
 #include <iostream>
 
-enum class ImageType
-{
+enum class ImageType {
 	PNG, JPG, BMP, TGA
 };
 
-
-class Image
-{
+class Image {
 public:
+	Image();
 	Image(const char* fileName);
 	Image(int w, int h, int channels);
 
 	Image(const Image& copyImage);
-	Image& operator=(const Image& copyImage);
+	Image operator=(const Image& copyImage);
 
 	bool Read(const char* fileName);
 	bool Write(const char* fileName);

@@ -6,6 +6,10 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+Image::Image() : Image(1, 1, 1) {
+	
+}
+
 Image::Image(const char* fileName) {
 	if (!Read(fileName)) {
 		//printf_s("Read Failed %s\n", fileName);
@@ -25,7 +29,7 @@ Image::Image(int w, int h, int channels) {
 	m_h = h;
 	m_channels = channels;
 
-	m_size = m_w * m_h * m_channels;
+	m_size = ((size_t)m_w * m_h * m_channels);
 	m_data = new uint8_t[m_size];
 	m_dataF = new float[m_size];
 
@@ -34,6 +38,8 @@ Image::Image(int w, int h, int channels) {
 
 		m_dataF[i] = 0.0f;
 	}
+
+	//
 }
 
 Image::Image(const Image& copyImage) {
@@ -43,7 +49,7 @@ Image::Image(const Image& copyImage) {
 	m_h = copyImage.m_h;
 	m_channels = copyImage.m_channels;
 
-	m_size = m_w * m_h * m_channels;
+	m_size = ((size_t)m_w * m_h * m_channels);
 	m_data = new uint8_t[m_size];
 	m_dataF = new float[m_size];
 
@@ -51,7 +57,7 @@ Image::Image(const Image& copyImage) {
 	memcpy(m_dataF, copyImage.m_dataF, m_size);
 }
 
-Image& Image::operator=(const Image& copyImage) {
+Image Image::operator=(const Image& copyImage) {
 	if (&copyImage == this) return *this;
 
 	stbi_image_free(m_data);
@@ -60,7 +66,7 @@ Image& Image::operator=(const Image& copyImage) {
 	m_h = copyImage.m_h;
 	m_channels = copyImage.m_channels;
 
-	m_size = m_w * m_h * m_channels;
+	m_size = ((size_t)m_w * m_h * m_channels);
 	m_data = new uint8_t[m_size];
 	m_dataF = new float[m_size];
 
@@ -78,7 +84,7 @@ Image& Image::operator=(const Image& copyImage) {
 bool Image::Read(const char* fileName) {
 	m_data = stbi_load(fileName, &m_w, &m_h, &m_channels, 0);
 
-	m_size = m_w * m_h * m_channels;
+	m_size = ((size_t)m_w * m_h * m_channels);
 
 	m_dataF = new float[m_size];
 
@@ -103,7 +109,7 @@ bool Image::Write(const char* fileName) {
 		m_dataF[i] = m_dataF[i] > 255.0f ? 255.0f : m_dataF[i];
 		m_dataF[i] = m_dataF[i] < 0.0f ? 0.0f : m_dataF[i];
 
-		m_data[i] = (uint8_t)round(m_dataF[i]);
+		m_data[i] = (uint8_t)roundf(m_dataF[i]);
 	}
 
 	switch (type) {
@@ -166,7 +172,7 @@ void Image::SetData(int index, float data) {
 	m_dataF[index] = data > 255.0f ? 255.0f : data;
 	m_dataF[index] = m_dataF[index] < 0.0f ? 0.0f : m_dataF[index];
 
-	m_data[index] = (uint8_t)round(m_dataF[index]);
+	m_data[index] = (uint8_t)roundf(m_dataF[index]);
 }
 
 void Image::BackgroundColor(const float r, float g = 0.0f, float b = 0.0f, float a = 255.0f) {
@@ -187,7 +193,7 @@ void Image::BackgroundColor(const float r, float g = 0.0f, float b = 0.0f, float
 	}
 	else {
 		for (size_t i = 0; i < m_size; i++) {
-			SetData(i, r);
+			SetData((int)i, r);
 		}
 	}
 }
