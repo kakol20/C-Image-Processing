@@ -24,6 +24,9 @@
     <ClCompile Include="src\image\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\maths\Maths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image\PPM.h">
@@ -32,5 +35,11 @@
     <ClInclude Include="src\image\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\maths\Maths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>
