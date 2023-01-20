@@ -11,6 +11,9 @@ public:
 	float GetX() const { return m_x; };
 	float GetY() const { return m_y; };
 
+	void SetX(const float& x) { m_x = x; };
+	void SetY(const float& y) { m_y = y; };
+
 	// ----- ASSIGNMENT OPERATORS -----
 
 	Vector2& operator=(const Vector2& other);
