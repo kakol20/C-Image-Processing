@@ -20,12 +20,30 @@ void PPM::Save(const char* file) {
 
 	m_file << "P3\n" << m_w << ' ' << m_h << "\n255\n";
 
-	for (auto it = m_data.begin(); it != m_data.end(); it++) {
+	/*for (auto it = m_data.begin(); it != m_data.end(); it++) {
 		int p = static_cast<int>(std::roundf((*it) * 255.f));
 		p = p < 0 ? 0 : p;
 		p = p > 255 ? 255 : p;
 
 		m_file << p << ' ';
+	}*/
+
+	for (int y = m_h - 1; y >= 0; y--) {
+		for (int x = 0; x < m_w; x++) {
+			size_t index = GetIndex(x, y);
+
+			for (int i = 0; i < 3; i++) {
+				int p = static_cast<int>(std::roundf(m_data[index + i] * 255.f));
+				p = p < 0 ? 0 : p;
+				p = p > 255 ? 255 : p;
+
+				m_file << p << ' ';
+			}
+
+			if (x == m_w - 1) {
+				m_file << '\n';
+			}
+		}
 	}
 
 	m_file.close();
@@ -49,3 +67,9 @@ size_t PPM::GetIndex(const int& x, const int& y) const {
 	l_y = m_h - l_y - 1;
 	return static_cast<size_t>(((x % m_w) + l_y * m_w) * 3);
 }
+
+//void PPM::IndexToXY(const size_t& index, int& x, int& y) {
+//	int pixelIndex = (int)index / 3;
+//	x = pixelIndex % m_w;
+//	y = pixelIndex / m_w;
+//}

@@ -27,4 +27,6 @@ private:
 	std::fstream m_file;
 
 	size_t GetIndex(const int& x, const int& y) const;
+
+	//void IndexToXY(const size_t& index, int& x, int& y);
 };
