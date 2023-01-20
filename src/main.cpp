@@ -9,7 +9,7 @@ int main() {
 
 	for (int x = 0; x < 256; x++) {
 		for (int y = 0; y < 256; y++) {
-			test.SetPixel(x, y, static_cast<float>(x) / 255.f, 0.f, 0.f);
+			test.SetPixel(x, y, { static_cast<float>(x) / 255.f, 0.f, 0.f });
 		}
 	}
 
@@ -17,7 +17,7 @@ int main() {
 
 	for (int x = 0; x < 256; x++) {
 		for (int y = 0; y < 256; y++) {
-			test.SetPixel(x, y, 0.f, static_cast<float>(y) / 255.f, 0.f);
+			test.SetPixel(x, y, { 0.f, static_cast<float>(y) / 255.f, 0.f });
 		}
 	}
 
