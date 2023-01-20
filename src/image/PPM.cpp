@@ -1,4 +1,3 @@
-
 #include "PPM.h"
 
 PPM::PPM(const int& w, const int& h) {
@@ -32,6 +31,11 @@ void PPM::Save(const char* file) {
 	m_file.close();
 }
 
+PPM::Color PPM::GetColor(const int& x, const int& y) const {
+	const size_t index = GetIndex(x, y);
+	return { m_data[index + 0], m_data[index + 1], m_data[index + 2] };
+}
+
 void PPM::SetPixel(const int& x, const int& y, const PPM::Color& color) {
 	int l_x = x % m_w;
 	int l_y = y % m_h;
@@ -40,4 +44,8 @@ void PPM::SetPixel(const int& x, const int& y, const PPM::Color& color) {
 	m_data[index + 0] = color.r;
 	m_data[index + 1] = color.g;
 	m_data[index + 2] = color.b;
+}
+
+size_t PPM::GetIndex(const int& x, const int& y) const {
+	return static_cast<size_t>(((x % m_w) + (y % m_h) * m_w) * 3);
 }

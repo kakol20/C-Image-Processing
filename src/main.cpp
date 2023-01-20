@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "image/PPM.h"
+#include "image/Line.h"
 
 int main() {
 	std::cout << "Press Enter to exit\n";
@@ -22,6 +23,12 @@ int main() {
 	}
 
 	test.Save("y_test.ppm");
+
+	PPM lineTest(256, 256);
+
+	Line::DrawLine(lineTest, { 1.f, 1.f, 1.f }, 85, 85, 185, 171);
+
+	lineTest.Save("line_test.ppm");
 
 	std::cin.get();
 

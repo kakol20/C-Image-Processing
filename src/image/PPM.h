@@ -14,6 +14,8 @@ public:
 
 	void Save(const char* file);
 
+	PPM::Color GetColor(const int& x, const int& y) const;
+
 	void SetPixel(const int& x, const int& y, const PPM::Color& color);
 
 private:
@@ -23,4 +25,6 @@ private:
 	std::vector<float> m_data;
 
 	std::fstream m_file;
+
+	size_t GetIndex(const int& x, const int& y) const;
 };

@@ -21,9 +21,15 @@
     <ClCompile Include="src\image\PPM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\image\Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image\PPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\image\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

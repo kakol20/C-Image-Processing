@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\image\Line.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\image\PPM.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\image\Line.h" />
     <ClInclude Include="src\image\PPM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
