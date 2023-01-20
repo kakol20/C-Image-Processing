@@ -37,9 +37,7 @@ PPM::Color PPM::GetColor(const int& x, const int& y) const {
 }
 
 void PPM::SetPixel(const int& x, const int& y, const PPM::Color& color) {
-	int l_x = x % m_w;
-	int l_y = y % m_h;
-	size_t index = static_cast<size_t>((l_x + l_y * m_w) * 3);
+	size_t index = GetIndex(x, y);
 
 	m_data[index + 0] = color.r;
 	m_data[index + 1] = color.g;
@@ -47,5 +45,7 @@ void PPM::SetPixel(const int& x, const int& y, const PPM::Color& color) {
 }
 
 size_t PPM::GetIndex(const int& x, const int& y) const {
-	return static_cast<size_t>(((x % m_w) + (y % m_h) * m_w) * 3);
+	int l_y = y % m_h;
+	l_y = m_h - l_y - 1;
+	return static_cast<size_t>(((x % m_w) + l_y * m_w) * 3);
 }

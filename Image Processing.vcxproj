@@ -154,10 +154,17 @@
     <ClCompile Include="src\image\Line.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\image\PPM.cpp" />
+    <ClCompile Include="src\maths\Maths.cpp" />
+    <ClCompile Include="src\maths\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image\Line.h" />
     <ClInclude Include="src\image\PPM.h" />
+    <ClInclude Include="src\maths\Maths.h" />
+    <ClInclude Include="src\maths\Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
