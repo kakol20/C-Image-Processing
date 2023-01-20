@@ -70,6 +70,19 @@ int main() {
 		}
 	}
 
+	for (auto it = points.begin(); it != points.end(); it++) {
+		Vector2& p = (*it);
+
+		int x = static_cast<int>(std::floorf(p.GetX()));
+		int y = static_cast<int>(std::floorf(p.GetY()));
+
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				cubicTest.SetPixel(x + i, y + j, { 1.f, 0.f, 0.f });
+			}
+		}
+	}
+
 	cubicTest.Save("cubic_test.ppm");
 
 	//std::cin.get();
