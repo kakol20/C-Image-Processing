@@ -152,10 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\PPM.cpp" />
+    <ClCompile Include="src\image\PPM.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\PPM.h" />
+    <ClInclude Include="src\image\PPM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

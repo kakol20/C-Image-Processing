@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "PPM.h"
+#include "image/PPM.h"
 
 int main() {
 	std::cout << "Press Enter to exit\n";

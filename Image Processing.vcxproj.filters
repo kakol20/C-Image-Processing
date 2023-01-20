@@ -18,12 +18,12 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PPM.cpp">
+    <ClCompile Include="src\image\PPM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\PPM.h">
+    <ClInclude Include="src\image\PPM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
