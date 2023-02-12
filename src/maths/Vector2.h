@@ -18,9 +18,23 @@ public:
 
 	Vector2& operator=(const Vector2& other);
 
+	Vector2& operator*=(const Vector2& other);
+	Vector2& operator/=(const Vector2& other);
+	Vector2& operator+=(const Vector2& other);
+	Vector2& operator-=(const Vector2& other);
+
+	// ----- ARITHMETIC OPERATORS -----
+
+	Vector2 operator-(const Vector2& other) const;
+	Vector2 operator*(const Vector2& other) const;
+	Vector2 operator/(const Vector2& other) const;
+	Vector2 operator+(const Vector2& other) const;
+
 	// ----- OTHER -----
 
 	static Vector2 CubicLerp(const Vector2& a, const Vector2& b, const Vector2& c, const Vector2& d, const float& factor);
+	static Vector2 Lerp(const Vector2& min, const Vector2& max, const float& factor);
+	static Vector2 Lerp(const Vector2& min, const Vector2& max, const Vector2& factor);
 	static Vector2 Map(const Vector2& v, const Vector2& fromMin, const Vector2& fromMax, const Vector2& toMin, const Vector2& toMax);
 
 private:
