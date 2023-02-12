@@ -16,17 +16,9 @@ PPM::PPM(const int& w, const int& h) {
 }
 
 void PPM::Save(const char* file) {
-	m_file.open(file, std::ios_base::out);
+	m_file.open(file, std::ios_base::out | std::ios_base::binary);
 
-	m_file << "P3\n" << m_w << ' ' << m_h << "\n255\n";
-
-	/*for (auto it = m_data.begin(); it != m_data.end(); it++) {
-		int p = static_cast<int>(std::roundf((*it) * 255.f));
-		p = p < 0 ? 0 : p;
-		p = p > 255 ? 255 : p;
-
-		m_file << p << ' ';
-	}*/
+	m_file << "P6\n" << m_w << ' ' << m_h << "\n255\n";
 
 	for (int y = m_h - 1; y >= 0; y--) {
 		for (int x = 0; x < m_w; x++) {
@@ -37,11 +29,7 @@ void PPM::Save(const char* file) {
 				p = p < 0 ? 0 : p;
 				p = p > 255 ? 255 : p;
 
-				m_file << p << ' ';
-			}
-
-			if (x == m_w - 1) {
-				m_file << '\n';
+				m_file << (char)p;
 			}
 		}
 	}
