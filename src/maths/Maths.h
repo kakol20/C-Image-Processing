@@ -10,4 +10,6 @@ namespace Maths {
 
 	const float PI = 3.14159265f;
 	const float THETA = Maths::PI * 2.f;
+
+	float Cot(const float& x);
 }

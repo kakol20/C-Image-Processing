@@ -18,6 +18,9 @@ public:
 
 	void SetPixel(const int& x, const int& y, const PPM::Color& color);
 
+	inline int GetHeight() const { return m_h; };
+	inline int GetWidth() const { return m_w; };
+
 private:
 	int m_w;
 	int m_h;

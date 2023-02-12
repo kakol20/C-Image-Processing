@@ -37,6 +37,8 @@ public:
 	static Vector2 Lerp(const Vector2& min, const Vector2& max, const Vector2& factor);
 	static Vector2 Map(const Vector2& v, const Vector2& fromMin, const Vector2& fromMax, const Vector2& toMin, const Vector2& toMax);
 
+	static Vector2 Zero;
+
 private:
 	float m_x;
 	float m_y;

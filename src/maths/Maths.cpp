@@ -21,3 +21,7 @@ float Maths::LoopPow(const float& n, const unsigned int& p) {
 	}
 	return r;
 }
+
+float Maths::Cot(const float& x) {
+	return 1.f / std::tanf(x);
+}

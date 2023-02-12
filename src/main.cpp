@@ -2,9 +2,12 @@
 #include <vector>
 #include <algorithm>
 
-#include "image/PPM.h"
+#include "image/GreatCircle.h"
 #include "image/Line.h"
+#include "image/PPM.h"
 #include "maths/Vector2.h"
+
+Vector2 Vector2::Zero(0.f, 0.f);
 
 int main() {
 	//std::cout << "Press Enter to exit\n";
@@ -84,6 +87,24 @@ int main() {
 	}
 
 	cubicTest.Save("cubic_test.ppm");
+
+	// ----- TEST GREAT CIRCLE CURVE -----
+
+	PPM greatCircle(1080, 1080);
+
+	Vector2 start(-43.1729f, -22.9068f);
+	Vector2 end(120.9842f, 14.5995f);
+
+	start += Vector2(180.f, 180.f);
+	end += Vector2(180.f, 180.f);
+	start /= Vector2(360.f, 360.f);
+	end /= Vector2(360.f, 360.f);
+	start *= Vector2(1080.f, 1080.f);
+	end *= Vector2(1080.f, 1080.f);
+
+	GreatCircle::DrawCurve(greatCircle, { 1.f, 1.f, 1.f }, start, end, 10);
+
+	greatCircle.Save("greatCircle_test.ppm");
 
 	//std::cin.get();
 
