@@ -21,6 +21,7 @@ public:
 	// ----- OTHER -----
 
 	static Vector2 CubicLerp(const Vector2& a, const Vector2& b, const Vector2& c, const Vector2& d, const float& factor);
+	static Vector2 Map(const Vector2& v, const Vector2& fromMin, const Vector2& fromMax, const Vector2& toMin, const Vector2& toMax);
 
 private:
 	float m_x;
