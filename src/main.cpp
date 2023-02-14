@@ -54,7 +54,7 @@ int main() {
 		i.SetY(i.GetY() * mY);
 	}
 
-	const float segments = 10;
+	const int segments = 10;
 
 	for (size_t i = 0; i < points.size() - 1; i++) {
 		Vector2 a = points[static_cast<size_t>(std::clamp((int)i - 1, 0, (int)points.size() - 1))];
@@ -62,15 +62,16 @@ int main() {
 		Vector2 c = points[i + 1];
 		Vector2 d = points[std::clamp(i + 2, (size_t)0, points.size() - 1)];
 
-		for (float s = 0; s < segments; s++) {
-			float factor1 = s / segments;
-			float factor2 = (s + 1.f) / segments;
+		std::vector<Vector2> points;
+		points.reserve((size_t)segments + 1);
 
-			Vector2 p1 = Vector2::CubicLerp(a, b, c, d, factor1);
-			Vector2 p2 = Vector2::CubicLerp(a, b, c, d, factor2);
+		for (int s = 0; s <= segments; s++) {
+			float factor1 = (float)s / (float)segments;
 
-			Line::DrawLine(cubicTest, { 1.f, 1.f, 1.f }, p1, p2);
+			points.push_back(Vector2::CubicLerp(a, b, c, d, factor1));
 		}
+
+		Line::DrawLine(cubicTest, { 1.f, 1.f, 1.f }, points);
 	}
 
 	for (auto it = points.begin(); it != points.end(); it++) {
@@ -106,7 +107,11 @@ int main() {
 
 	greatCircle.Save("greatCircle_test.ppm");
 
-	//std::cin.get();
+#ifdef _DEBUG
+	std::cout << "Press enter to exit\n";
+	std::cin.get();
+#endif // _DEBUG
+
 
 	return 0;
 }

@@ -30,9 +30,7 @@ void GreatCircle::DrawCurve(PPM& image, const PPM::Color& color, const Vector2& 
 	}
 	points.push_back(GreatCircle::Point(alpha, alpha, start_e, end_e, pixelMax));
 
-	for (size_t i = 0; i < points.size() - 1; i++) {
-		Line::DrawLine(image, color, points[i], points[i + 1]);
-	}
+	Line::DrawLine(image, color, points);
 }
 
 Vector2 GreatCircle::ToEquirectangular(const Vector2& v) {

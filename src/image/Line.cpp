@@ -220,6 +220,18 @@ void Line::DrawLine(PPM& image, const PPM::Color& color, const Vector2& v1, cons
 	}
 }
 
+void Line::DrawLine(PPM& image, const PPM::Color& color, const std::vector<Vector2>& points, const bool& loop) {
+	size_t limit = points.size();
+	limit = loop ? limit : limit - 1;
+
+	for (size_t i = 0; i < limit; i++) {
+		const Vector2& start = points[i];
+		const Vector2& end = points[(i + 1) % points.size()];
+
+		Line::DrawLine(image, color, start, end);
+	}
+}
+
 PPM::Color Line::LerpColor(const PPM::Color& c1, const PPM::Color& c2, const float& factor) {
 	return { std::lerp(c1.r, c2.r, factor),
 		std::lerp(c1.g, c2.g, factor),

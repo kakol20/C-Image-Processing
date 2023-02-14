@@ -1,3 +1,7 @@
+#ifdef _DEBUG
+#include <iostream>
+#endif // _DEBUG
+
 #include "PPM.h"
 
 PPM::PPM(const int& w, const int& h) {
@@ -33,6 +37,10 @@ void PPM::Save(const char* file) {
 			}
 		}
 	}
+
+#ifdef _DEBUG
+	std::cout << "Saved file: " << file << '\n';
+#endif // _DEBUG
 
 	m_file.close();
 }
