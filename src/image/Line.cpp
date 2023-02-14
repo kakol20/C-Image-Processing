@@ -11,73 +11,7 @@
 /// <param name="y2"></param>
 void Line::DrawLine(PPM& image, const PPM::Color& color, const int& x1, const int& y1, const int& x2, const int& y2) {
 	// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
-	bool steep = std::abs(y2 - y1) > std::abs(x2 - x1);
-
-	float l_x0 = (float)x1, l_y0 = (float)y1;
-	float l_x1 = (float)x2, l_y1 = (float)y2;
-
-	if (steep) {
-		std::swap(l_x0, l_y0);
-		std::swap(l_x1, l_y1);
-	}
-	if (l_x0 > l_x1) {
-		std::swap(l_x0, l_x1);
-		std::swap(l_y0, l_y1);
-	}
-
-	float dx = l_x1 - l_x0;
-	float dy = l_y1 - l_y0;
-	float gradient = dx == 0.f ? 1.0f : dy / dx;
-
-	// first endpoint
-	float xend = roundf(l_x0);
-	float yend = l_y0 + gradient * (xend - l_x0);
-	float xgap = rfpart(l_x0 + 0.5f);
-
-	float xpxl1 = xend; // this will be used in the main loop
-	float ypxl1 = ipart(yend);
-
-	if (steep) {
-		Plot(image, color, ypxl1, xpxl1, rfpart(yend) * xgap);
-		Plot(image, color, ypxl1 + 1, xpxl1, fpart(yend) * xgap);
-	} else {
-		Plot(image, color, xpxl1, ypxl1, rfpart(yend) * xgap);
-		Plot(image, color, xpxl1, ypxl1 + 1, fpart(yend) * xgap);
-	}
-	float intery = yend + gradient; // first y-intersection for the main loop
-
-	// second endpoint
-	xend = std::roundf(l_x1);
-	yend = l_y1 + gradient * (xend - l_x1);
-	xgap = fpart(l_x1 + 0.5f);
-
-	float xpxl2 = xend; // this will be used in the main loop
-	float ypxl2 = ipart(yend);
-
-	if (steep) {
-		Plot(image, color, ypxl2, xpxl2, rfpart(yend) * xgap);
-		Plot(image, color, ypxl2 + 1, xpxl2, fpart(yend) * xgap);
-	} else {
-		Plot(image, color, xpxl2, ypxl2, rfpart(yend) * xgap);
-		Plot(image, color, xpxl2, ypxl2 + 1, fpart(yend) * xgap);
-	}
-
-	// main loop
-	if (steep) {
-		for (float x = xpxl1 + 1; x < xpxl2; x++) {
-			Plot(image, color, ipart(intery), x, rfpart(intery));
-			Plot(image, color, ipart(intery) + 1, x, fpart(intery));
-
-			intery = intery + gradient;
-		}
-	} else {
-		for (float x = xpxl1 + 1; x < xpxl2; x++) {
-			Plot(image, color, x, ipart(intery), rfpart(intery));
-			Plot(image, color, x, ipart(intery) + 1, fpart(intery));
-
-			intery = intery + gradient;
-		}
-	}
+	DrawLine(image, color, (float)x1, (float)y1, (float)x2, (float)y2);
 }
 
 void Line::DrawLine(PPM& image, const PPM::Color& color, const float& x1, const float& y1, const float& x2, const float& y2) {
@@ -151,73 +85,7 @@ void Line::DrawLine(PPM& image, const PPM::Color& color, const float& x1, const 
 }
 
 void Line::DrawLine(PPM& image, const PPM::Color& color, const Vector2& v1, const Vector2& v2) {
-	float x1 = v1.GetX(), y1 = v1.GetY();
-	float x2 = v2.GetX(), y2 = v2.GetY();
-
-	bool steep = std::abs(y2 - y1) > std::abs(x2 - x1);
-
-	if (steep) {
-		std::swap(x1, y1);
-		std::swap(x2, y2);
-	}
-	if (x1 > x2) {
-		std::swap(x1, x2);
-		std::swap(y1, y2);
-	}
-
-	float dx = x2 - x1;
-	float dy = y2 - y1;
-	float gradient = dx == 0.f ? 1.0f : dy / dx;
-
-	// first endpoint
-	float xend = roundf(x1);
-	float yend = y1 + gradient * (xend - x1);
-	float xgap = rfpart(x1 + 0.5f);
-
-	float xpxl1 = xend; // this will be used in the main loop
-	float ypxl1 = ipart(yend);
-
-	if (steep) {
-		Plot(image, color, ypxl1, xpxl1, rfpart(yend) * xgap);
-		Plot(image, color, ypxl1 + 1, xpxl1, fpart(yend) * xgap);
-	} else {
-		Plot(image, color, xpxl1, ypxl1, rfpart(yend) * xgap);
-		Plot(image, color, xpxl1, ypxl1 + 1, fpart(yend) * xgap);
-	}
-	float intery = yend + gradient; // first y-intersection for the main loop
-
-	// second endpoint
-	xend = std::roundf(x2);
-	yend = y2 + gradient * (xend - x2);
-	xgap = fpart(x2 + 0.5f);
-
-	float xpxl2 = xend; // this will be used in the main loop
-	float ypxl2 = ipart(yend);
-
-	if (steep) {
-		Plot(image, color, ypxl2, xpxl2, rfpart(yend) * xgap);
-		Plot(image, color, ypxl2 + 1, xpxl2, fpart(yend) * xgap);
-	} else {
-		Plot(image, color, xpxl2, ypxl2, rfpart(yend) * xgap);
-		Plot(image, color, xpxl2, ypxl2 + 1, fpart(yend) * xgap);
-	}
-
-	// main loop
-	if (steep) {
-		for (float x = xpxl1 + 1; x < xpxl2; x++) {
-			Plot(image, color, ipart(intery), x, rfpart(intery));
-			Plot(image, color, ipart(intery) + 1, x, fpart(intery));
-
-			intery = intery + gradient;
-		}
-	} else {
-		for (float x = xpxl1 + 1; x < xpxl2; x++) {
-			Plot(image, color, x, ipart(intery), rfpart(intery));
-			Plot(image, color, x, ipart(intery) + 1, fpart(intery));
-
-			intery = intery + gradient;
-		}
-	}
+	DrawLine(image, color, v1.GetX(), v1.GetY(), v2.GetX(), v2.GetY());
 }
 
 void Line::DrawLine(PPM& image, const PPM::Color& color, const std::vector<Vector2>& points, const bool& loop) {
