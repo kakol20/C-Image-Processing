@@ -21,7 +21,80 @@ PPM::PPM(const int& w, const int& h) {
 	}
 }
 
-void PPM::Save(const char* file) {
+void PPM::Read(const char* file) {
+	m_file.open(file, std::ios_base::in | std::ios_base::binary);
+
+	// ----- READ HEADER IN ASCII -----
+	char header[256];
+
+	if (m_file.is_open()) {
+		// Read format
+		m_file.read(header, 2);
+		header[2] = '\0';
+
+		if (header[0] == 'P' && header[1] == '6') {
+#ifdef _DEBUG
+			std::cout << "PPM image format detected\n";
+#endif // _DEBUG
+		} else {
+#ifdef _DEBUG
+			std::cout << "Error: Not a PPM image\n";
+#endif // _DEBUG
+
+			return;
+		}
+
+		// Read the image size
+		int width, height;
+		m_file >> width >> height;
+		int max;
+		m_file >> max;
+		m_file.get();
+
+		m_w = width;
+		m_h = height;
+
+		// Calculate the size of the image data
+		int num_pixels = width * height;
+		int data_size = num_pixels * 3;
+
+		// Read the image data
+		std::vector<unsigned char> data(data_size);
+		m_file.read(reinterpret_cast<char*>(data.data()), data_size);
+
+		// Copy to member data
+		m_data.clear();
+		m_data.reserve((size_t)data_size);
+		for (auto it = data.begin(); it != data.end(); it++) {
+			unsigned char& col = (*it);
+			unsigned int uint_col = (unsigned int)col;
+			float f_col = (float)uint_col;
+			f_col /= 255.f;
+
+			m_data.push_back(f_col);
+		}
+
+		// Correct channels
+
+		/*for (size_t i = 0; i < m_data.size(); i += 3) {
+			float r = m_data[i + 0];
+			float g = m_data[i + 1];
+			float b = m_data[i + 2];
+
+			m_data[i + 0] = r;
+			m_data[i + 1] = g;
+			m_data[i + 2] = b;
+		}*/
+	} else {
+#ifdef _DEBUG
+		std::cout << "Error: Could not open file\n";
+#endif // _DEBUG
+	}
+
+	m_file.close();
+}
+
+void PPM::Write(const char* file) {
 	m_file.open(file, std::ios_base::out | std::ios_base::binary);
 
 	// ----- SAVE HEADER AS ASCII -----
@@ -39,8 +112,8 @@ void PPM::Save(const char* file) {
 				p = p < 0 ? 0 : p;
 				p = p > 255 ? 255 : p;
 
-				char char_p = (char)p;
-				m_file.write((char*)&char_p, sizeof(char));
+				unsigned char char_p = (unsigned char)p;
+				m_file.write((char*)&char_p, sizeof(unsigned char));
 
 				//m_file << (char)p;
 			}

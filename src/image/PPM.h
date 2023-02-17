@@ -12,7 +12,8 @@ public:
 	PPM(const int& w = 1, const int& h = 1);
 	~PPM() {};
 
-	void Save(const char* file);
+	void Read(const char* file);
+	void Write(const char* file);
 
 	PPM::Color GetColor(const int& x, const int& y) const;
 
