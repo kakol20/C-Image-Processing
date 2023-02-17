@@ -2,6 +2,8 @@
 #include <iostream>
 #endif // _DEBUG
 
+#include <sstream>
+
 #include "PPM.h"
 
 PPM::PPM(const int& w, const int& h) {
@@ -22,8 +24,12 @@ PPM::PPM(const int& w, const int& h) {
 void PPM::Save(const char* file) {
 	m_file.open(file, std::ios_base::out | std::ios_base::binary);
 
-	m_file << "P6\n" << m_w << ' ' << m_h << "\n255\n";
+	// ----- SAVE HEADER AS ASCII -----
+	std::stringstream ss;
+	ss << "P6\n" << m_w << ' ' << m_h << "\n255\n";
+	m_file.write(ss.str().c_str(), ss.str().length());
 
+	// ----- SAVE DATA -----
 	for (int y = m_h - 1; y >= 0; y--) {
 		for (int x = 0; x < m_w; x++) {
 			size_t index = GetIndex(x, y);
@@ -33,7 +39,10 @@ void PPM::Save(const char* file) {
 				p = p < 0 ? 0 : p;
 				p = p > 255 ? 255 : p;
 
-				m_file << (char)p;
+				char char_p = (char)p;
+				m_file.write((char*)&char_p, sizeof(char));
+
+				//m_file << (char)p;
 			}
 		}
 	}
