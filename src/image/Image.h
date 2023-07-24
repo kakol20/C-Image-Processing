@@ -23,7 +23,7 @@ public:
 	/// </summary>
 	/// <param name="w"></param>
 	/// <param name="h"></param>
-	/// <param name="channels">Min 1, Max 4</param>
+	/// <param name="channels">1 = Grayscale, 2 = Grayscale with Alpha, 3 = RGB, 4 = RGB with Alpha</param>
 	/// <param name="interpolation"></param>
 	/// <param name="exterapolation"></param>
 	Image(const unsigned int w = 0, const unsigned int h = 0, const uint8_t channels = 4, const Interpolation interpolation = Interpolation::Linear, const Extrapolation extrapolation = Extrapolation::Repeat);
@@ -33,6 +33,15 @@ public:
 	// ----- ASSIGNMENT -----
 
 	Image& operator=(const Image& other);
+
+	// ----- GETTERS & SETTERS -----
+
+	Color GetPixel(const float x, const float y) const;
+	void SetPixel(const Color& col, const float x, const float y);
+
+	// ----- READ & WRITE -----
+
+	bool Write(const char* file);
 
 	~Image();
 
@@ -45,4 +54,9 @@ private:
 	Extrapolation m_extrapolation;
 
 	Color* m_data;
+
+	// ----- OTHER -----
+
+	FileType GetFileType(const char* file);
+	size_t GetIndex(unsigned int x, unsigned int y);
 };

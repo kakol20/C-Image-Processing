@@ -16,6 +16,12 @@ Color::Color(const Color& other) {
 	m_a = other.m_a;
 }
 
+Color Color::GetClamp() const {
+	Color out(m_r, m_g, m_b, m_a);
+	out.Clamp();
+	return out;
+}
+
 void Color::Clamp() {
 	m_r = std::clamp(m_r, 0.f, 1.f);
 	m_g = std::clamp(m_g, 0.f, 1.f);

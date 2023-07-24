@@ -132,6 +132,7 @@ public:
 
 	// ----- OTHER -----
 
+	Color GetClamp() const;
 	void Clamp();
 
 private:
