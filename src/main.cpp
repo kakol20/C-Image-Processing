@@ -1,14 +1,18 @@
 #include <iostream>
+
 #include "image/Color.h"
+#include "image/Image.h"
 
 int main() {
 	std::cout << "Hello World!\n";
 
-	Color red = Color(255.f / 255.f, 49.f / 255.f, 49.f / 255.f, 1.f);
-	Color blue = Color(0.f, 150.f / 255.f, 255.f / 255.f, 165 / 255.f);
-	Color mul = red * blue;
-	Color add = red + blue;
-	add.Clamp();
+	int x = 8;
+	int modX = ((x % 3) + 3) % 3;
+
+	std::cout << modX << '\n';
+
+	Image img(100, 100, 4);
+	Image copyTest = img;
 
 	std::cin.get();
 	return 0;

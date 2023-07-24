@@ -10,6 +10,7 @@ public:
 	/// <param name="b">Between 0 &#38; 1</param>
 	/// <param name="a">Between 0 &#38; 1</param>
 	Color(const float r = 0.f, const float g = 0.f, const float b = 0.f, const float a = 1.f);
+	Color(const Color& other);
 	~Color() {};
 
 	// ----- ASSIGNMENT -----
