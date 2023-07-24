@@ -1,3 +1,4 @@
 # C++ Image Processing
 
-Using PPM format
+# Credits
+[Sean Barrett's](https://github.com/nothings/stb) stb library  
