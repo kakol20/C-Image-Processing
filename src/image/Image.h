@@ -26,7 +26,7 @@ public:
 	/// <param name="channels">1 = Grayscale, 2 = Grayscale with Alpha, 3 = RGB, 4 = RGB with Alpha</param>
 	/// <param name="interpolation"></param>
 	/// <param name="exterapolation"></param>
-	Image(const unsigned int w = 0, const unsigned int h = 0, const uint8_t channels = 4, const Interpolation interpolation = Interpolation::Linear, const Extrapolation extrapolation = Extrapolation::Repeat);
+	Image(const unsigned int w = 0, const unsigned int h = 0, const int channels = 3, const Interpolation interpolation = Interpolation::Linear, const Extrapolation extrapolation = Extrapolation::Repeat);
 
 	Image(const Image& other);
 
@@ -36,18 +36,30 @@ public:
 
 	// ----- GETTERS & SETTERS -----
 
+	/// <summary>
+	/// Co-ordinates normalized to 0 - 1
+	/// </summary>
 	Color GetPixel(const float x, const float y) const;
+
+	/// <summary>
+	/// Co-ordinates normalized to 0 - 1
+	/// </summary>
 	void SetPixel(const Color& col, const float x, const float y);
+
+	int GetWidth() const { return m_w; };
+	int GetHeight() const { return m_h; };
+	int GetChannels() const { return m_channels; };
 
 	// ----- READ & WRITE -----
 
+	bool Read(const char* file, const int forceChannels = -1);
 	bool Write(const char* file);
 
 	~Image();
 
 private:
-	unsigned int m_w, m_h;
-	uint8_t m_channels;
+	int m_w, m_h;
+	int m_channels;
 	size_t m_size;
 
 	Interpolation m_interpolation;

@@ -8,7 +8,7 @@
 #include "../../ext/stb/stb_image.h"
 #include "../../ext/stb/stb_image_write.h"
 
-Image::Image(const unsigned int w, const unsigned int h, const uint8_t channels, const Interpolation interpolation, const Extrapolation extrapolation) {
+Image::Image(const unsigned int w, const unsigned int h, const int channels, const Interpolation interpolation, const Extrapolation extrapolation) {
 	m_w = w;
 	m_h = h;
 	m_channels = channels;
@@ -65,13 +65,6 @@ Image& Image::operator=(const Image& other) {
 Color Image::GetPixel(const float x, const float y) const {
 	return Color();
 }
-
-/// <summary>
-/// Co-ordinates normalized to 0 - 1
-/// </summary>
-/// <param name="col"></param>
-/// <param name="x"></param>
-/// <param name="y"></param>
 void Image::SetPixel(const Color& col, const float x, const float y) {
 	unsigned int l_x = 0, l_y = 0;
 
@@ -123,6 +116,22 @@ void Image::SetPixel(const Color& col, const float x, const float y) {
 
 		m_data[index] = col;
 	}
+}
+
+bool Image::Read(const char* file, const int forceChannels) {
+	uint8_t* data = NULL;
+	if (forceChannels <= 0 && forceChannels > 4) {
+		data = stbi_load(file, &m_w, &m_h, &m_channels, 0);
+	}
+	else {
+		data = stbi_load(file, &m_w, &m_h, &m_channels, forceChannels);
+
+	}
+
+	if (data == NULL) return false;
+
+	stbi_image_free(data);
+	return true;
 }
 
 bool Image::Write(const char* file) {
