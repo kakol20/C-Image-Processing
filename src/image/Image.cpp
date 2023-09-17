@@ -138,11 +138,11 @@ bool Image::Write(const char* file) {
 	FileType type = GetFileType(file);
 
 	// Create data that stb_image can read
-	size_t size = (size_t)(m_w * m_h) * (size_t)m_channels;
+	size_t size = (size_t)(m_w * m_h * m_channels);
 	uint8_t* data = new uint8_t[size];
 
-	for (unsigned int y = 0; y < m_w; y++) {
-		for (unsigned int x = 0; x < m_h; x++) {
+	for (int y = 0; y < m_h; y++) {
+		for (int x = 0; x < m_w; x++) {
 			size_t stb_index = (size_t)(x + y * m_w) * (size_t)m_channels;
 			size_t data_index = GetIndex(x, y);
 
@@ -164,12 +164,15 @@ bool Image::Write(const char* file) {
 				data[stb_index + 1] = (uint8_t)std::roundf(col.GetG());
 				data[stb_index + 2] = (uint8_t)std::roundf(col.GetB());
 			}
-			else {
+			else if (m_channels == 4) {
 				// rgb with alpha
 				data[stb_index] = (uint8_t)std::roundf(col.GetR());
 				data[stb_index + 1] = (uint8_t)std::roundf(col.GetG());
 				data[stb_index + 2] = (uint8_t)std::roundf(col.GetB());
 				data[stb_index + 3] = (uint8_t)std::roundf(col.GetA());
+			}
+			else {
+				return false;
 			}
 		}
 	}

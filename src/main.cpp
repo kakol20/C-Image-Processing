@@ -33,11 +33,11 @@ int main() {
 		for (int y = 0; y < img.GetHeight(); y++) {
 			Color totalColor(0, 0, 0, 0);
 			int count = 0;
-			for (float x_sample = (float)x; x_sample <= (float)(x + 1); x_sample += sampleDimensions) {
+			for (float x_sample = (float)x; x_sample < (float)(x + 1); x_sample += sampleDimensions) {
 				float x_normS = x_sample / (float)img.GetWidth();
 				float x_check = std::powf(std::abs(x_sample - halfW), R);
 
-				for (float y_sample = (float)y; y_sample <= (float)(y + 1); y_sample += sampleDimensions) {
+				for (float y_sample = (float)y; y_sample < (float)(y + 1); y_sample += sampleDimensions) {
 					float y_norm = y_sample / (float)img.GetHeight();
 					float y_check = std::powf(std::abs(A * y_sample - yOffset), R);
 
